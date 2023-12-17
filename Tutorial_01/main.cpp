@@ -1,12 +1,11 @@
-#include<iostream>
-
-using namespace std;
+#include "Window.h"
 
 
 int main() {
+	Window* window;
+	window= new Window(600, 800);
+	window->MainLoop();
 
-	std::cout << "Fdsfsf";
-	std::cout << "Fdsfdasdasdsdsf";
 
 	return 0;
 }
