@@ -1,0 +1,66 @@
+cmake_minimum_required(VERSION 3.9)
+
+project("Tutorial_01")
+
+set(HEADER_FILES)
+	
+
+
+set(SOURCE_FILES main.cpp)
+
+	
+
+
+
+add_executable(Tutorial_01
+	${HEADER_FILES}
+	${SOURCE_FILES}
+)
+
+target_link_libraries(Tutorial_01
+	PUBLIC
+		opengl32
+		glew32
+		glfw3
+)
+
+
+if(WIN32)
+	target_compile_definitions(Tutorial_01
+		PRIVATE
+			OS_WINDOWS=1
+	)
+	target_compile_options(Tutorial_01
+		PRIVATE
+			/WX
+	)
+endif(WIN32)
+
+
+target_compile_features(Tutorial_01 PUBLIC cxx_std_17)
+set_target_properties(Tutorial_01 PROPERTIES
+	CXX_EXTENSIONS OFF
+)
+
+target_include_directories(Tutorial_01
+	PUBLIC
+	${CMAKE_SOURCE_DIR}/external/glew/include
+	${CMAKE_SOURCE_DIR}/external/glfw/include
+	${CMAKE_SOURCE_DIR}/external/glm
+)
+
+if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
+
+	target_link_directories (Tutorial_01
+	PUBLIC
+	${CMAKE_SOURCE_DIR}/external/glew/lib/Release/x64
+    ${CMAKE_SOURCE_DIR}/external/glfw/lib/x64/
+)	
+else("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
+
+	target_link_directories (Tutorial_01
+	PUBLIC
+	${CMAKE_SOURCE_DIR}/external/glew/lib/Release/Win32
+	${CMAKE_SOURCE_DIR}/external/glfw/lib/Win32/
+)
+ENDIF()
