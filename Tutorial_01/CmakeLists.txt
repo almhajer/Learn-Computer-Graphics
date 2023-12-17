@@ -2,11 +2,17 @@ cmake_minimum_required(VERSION 3.9)
 
 project("Tutorial_01")
 
-set(HEADER_FILES)
-	
+set(HEADER_FILES
+	Window.h
+)
+
+set(SOURCE_FILES
+	Window.cpp
+	main.cpp
+)	
 
 
-set(SOURCE_FILES main.cpp)
+
 
 	
 
@@ -20,9 +26,12 @@ add_executable(Tutorial_01
 target_link_libraries(Tutorial_01
 	PUBLIC
 		opengl32
-		glew32
 		glfw3
+		glew32
+		
 )
+
+
 
 
 if(WIN32)
