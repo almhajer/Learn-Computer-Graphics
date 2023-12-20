@@ -14,7 +14,7 @@ Window::Window(int width, int height):m_width(width),m_height(height)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
 
-	window_ptr = glfwCreateWindow(width,height,"Tutorial_04",NULL,NULL);
+	window_ptr = glfwCreateWindow(width,height,"Tutorial_05",NULL,NULL);
 	if (window_ptr ==nullptr) {
 		std::cout << "not can make window \n";
 	}
@@ -28,13 +28,17 @@ Window::Window(int width, int height):m_width(width),m_height(height)
 	const char*vs=R"CODE(
 			#version 410 core
 			layout (location=0) in vec2 position;
+			layout (location=1) in vec4 color;
+			
 			uniform mat4 projection;
 			uniform mat4 model_matx;
+
+			out vec4 vertex_color;
 
 			void main(){
 
 			gl_Position = projection*model_matx*vec4(position.x,position.y,0.0f,1.0f);
-
+			vertex_color=color;
 			}
 		)CODE";
 
@@ -42,9 +46,10 @@ Window::Window(int width, int height):m_width(width),m_height(height)
 			#version 410 core
 			out vec4 finalcolor;
 
+			in vec4 vertex_color;
 
 			void main(){
-			finalcolor=vec4(1,0,0,1);
+			finalcolor=vertex_color;
 			}
 		)CODE";
 
@@ -54,13 +59,8 @@ Window::Window(int width, int height):m_width(width),m_height(height)
 	camera = new Camera(m_width, m_height);
 	shader = new ShaderProgram(vs, fs);
 
-	points_renderer = new Points();
-	points_renderer->Add(glm::vec2(10, 10));
-	points_renderer->Add(glm::vec2(100, 100));
-	points_renderer->Add(glm::vec2(155, 150));
 
-	// lines
-	lines_renderer = new Lines();
+
 
 	//triangle
 
@@ -71,10 +71,9 @@ Window::Window(int width, int height):m_width(width),m_height(height)
 
 Window::~Window()
 {
-	delete points_renderer;
 	delete camera;
 	delete shader;
-	delete lines_renderer;
+
 	delete triangle_renderer;
 	glfwTerminate();
 	
@@ -91,7 +90,7 @@ void Window::Input()
 
 	if (glfwGetKey(window_ptr, GLFW_KEY_DELETE)) {
 		
-		points_renderer->Delete();
+	//	points_renderer->Delete();
 	}
 
 	if (glfwGetKey(window_ptr, GLFW_KEY_UP)) {
@@ -122,13 +121,13 @@ void Window::Input()
 		glfwGetCursorPos(window_ptr, &x, &y);
 		glm::vec2 mouse_position (x, y);
 
-		lines_renderer->Add(mouse_position);
+		//lines_renderer->Add(mouse_position);
 	}
 
 
 
 }
-float angle = 0;
+//float angle = 0;
 void Window::MainLoop()
 {
 	while (!glfwWindowShouldClose(window_ptr))
@@ -139,8 +138,8 @@ void Window::MainLoop()
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		
-		angle += 0.001f;
-		triangle_renderer->setrotation(angle);
+		//angle += 0.001f;
+		//triangle_renderer->setrotation(angle);
 
 
 		shader->Send_Mat4("projection", camera->Get_Projection());
