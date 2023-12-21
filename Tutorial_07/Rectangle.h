@@ -12,6 +12,13 @@ public:
 	void setposition(glm::vec2 pos);
 	void setscale(glm::vec2 scal);
 	void setrotation(float rotation);
+
+
+	glm::vec2 getposition();
+	glm::vec2 getscale();
+	float getrotation();
+
+
 private:
 
 

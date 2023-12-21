@@ -14,14 +14,24 @@ Rectangle::Rectangle():position(glm::vec2(0.0)),scale(glm::vec2(1)), rotation_an
 
 	};
 	glm::vec4 colors[6]{
-		glm::vec4(1.0f,0.0f,0.0f,1.0f),
-		glm::vec4(0.0f,1.0f,0.0f,1.0f),
-		glm::vec4(0.0f,0.0f,1.0f,1.0f),
+		glm::vec4(1,1,1,1.1),
+		glm::vec4(1,1,1,1.1),
+		glm::vec4(1,1,1,1.1),
+		glm::vec4(1,1,1,1.1),
+		glm::vec4(1,1,1,1.1),
+		glm::vec4(1,1,1,1.1)
 
+	};
 
-		glm::vec4(0.0f,0.0f,1.0f,1.0f),
-		glm::vec4(0.0f,1.0f,0.0f,1.0f),
-		glm::vec4(1.0f,0.0f,0.0f,1.0f),
+	glm::vec2 uv[6] = {
+		glm::vec2(0,0),
+		glm::vec2(0,1),
+		glm::vec2(1,0),
+
+		glm::vec2(1,0),
+		glm::vec2(0,1),
+		glm::vec2(1,1)
+
 	};
 
 
@@ -51,12 +61,19 @@ Rectangle::Rectangle():position(glm::vec2(0.0)),scale(glm::vec2(1)), rotation_an
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
+	// uv picture
+
+	glBindBuffer(GL_ARRAY_BUFFER, UVBO);
+	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(glm::vec2), &uv[0], GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, NULL);
 }
 
 Rectangle::~Rectangle()
 {
 	glDeleteVertexArrays(1, &VAO);
-	glDeleteVertexArrays(1, &CBO);
+	//glDeleteVertexArrays(1, &CBO);
 
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &CBO);
@@ -94,4 +111,19 @@ void Rectangle::setscale(glm::vec2 scal)
 void Rectangle::setrotation(float rotation)
 {
 	rotation_angle = rotation;
+}
+
+glm::vec2 Rectangle::getposition()
+{
+	return position;
+}
+
+glm::vec2 Rectangle::getscale()
+{
+	return scale;
+}
+
+float Rectangle::getrotation()
+{
+	return rotation_angle;
 }

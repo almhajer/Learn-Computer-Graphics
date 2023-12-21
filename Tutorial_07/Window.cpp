@@ -29,16 +29,20 @@ Window::Window(int width, int height):m_width(width),m_height(height)
 			#version 410 core
 			layout (location=0) in vec2 position;
 			layout (location=1) in vec4 color;
-			
+			layout (location=2) in vec2 uv;
+
+
 			uniform mat4 projection;
 			uniform mat4 model_matx;
 
 			out vec4 vertex_color;
+			out vec2 vertex_uv;
 
 			void main(){
 
 			gl_Position = projection*model_matx*vec4(position.x,position.y,0.0f,1.0f);
 			vertex_color=color;
+			vertex_uv=uv;
 			}
 		)CODE";
 
@@ -47,9 +51,12 @@ Window::Window(int width, int height):m_width(width),m_height(height)
 			out vec4 finalcolor;
 
 			in vec4 vertex_color;
+			in vec2 vertex_uv;
+			
+			uniform sampler2D sprite;
 
 			void main(){
-			finalcolor=vertex_color;
+		finalcolor = vertex_color * texture(sprite,vertex_uv);
 			}
 		)CODE";
 
@@ -64,9 +71,10 @@ Window::Window(int width, int height):m_width(width),m_height(height)
 
 	//triangle
 
-	triangle_renderer = new Rectangle();
-	triangle_renderer->setposition(glm::vec2(200,250));
-	triangle_renderer->setscale(glm::vec2(200, 200));
+
+
+	spaceship = new Sprite("C:\\Users\\for-t\\Desktop\\openglTutorial\\Learn-Computer-Graphics\\resources\\spaceship.png", glm::vec2(100, 100));
+
 }
 
 Window::~Window()
@@ -74,7 +82,7 @@ Window::~Window()
 	delete camera;
 	delete shader;
 
-	delete triangle_renderer;
+	delete spaceship;
 	glfwTerminate();
 	
 }
@@ -94,21 +102,17 @@ void Window::Input()
 	}
 
 	if (glfwGetKey(window_ptr, GLFW_KEY_UP)) {
-		pos.y -= 1;
-		triangle_renderer->setposition(pos);
+		spaceship->move_up();
 	}
 	if (glfwGetKey(window_ptr, GLFW_KEY_DOWN)) {
-		pos.y += 1;
-		triangle_renderer->setposition(pos);
+		spaceship->move_down();
 	}
 
 	if (glfwGetKey(window_ptr, GLFW_KEY_LEFT)) {
-		pos.x -= 1;
-		triangle_renderer->setposition(pos);
+		spaceship->move_left();
 	}
 	if (glfwGetKey(window_ptr, GLFW_KEY_RIGHT)) {
-		pos.x += 1;
-		triangle_renderer->setposition(pos);
+		spaceship->move_right();
 	}
 
 
@@ -143,12 +147,12 @@ void Window::MainLoop()
 
 
 		shader->Send_Mat4("projection", camera->Get_Projection());
-		shader->Send_Mat4("model_matx", triangle_renderer->GetTransformtionMatrx());
+		shader->Send_Mat4("model_matx", spaceship->transformation());
 		shader->use();
+		spaceship->Draw();
 		/*points_renderer->Draw();
 		lines_renderer->Draw();*/
 		
-		triangle_renderer->Draw();
 
 		glfwSwapBuffers(window_ptr);
 		glfwPollEvents();
