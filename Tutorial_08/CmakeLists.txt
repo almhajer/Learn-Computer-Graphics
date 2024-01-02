@@ -10,6 +10,7 @@ set(HEADER_FILES
 	Texture.h
 	Sprite.h
 	FileDialog.h
+	Game.h
 )
 
 set(SOURCE_FILES
@@ -21,6 +22,7 @@ set(SOURCE_FILES
 	Texture.cpp
 	Sprite.cpp
 	FileDialog.cpp
+	Game.cpp
 )	
 
 
@@ -56,6 +58,16 @@ add_custom_command(
 	COMMAND ${CMAKE_COMMAND} -E copy 
 	${CMAKE_SOURCE_DIR}/external/glew/bin/Release/Win32/glew32.dll
 	$<TARGET_FILE_DIR:Tutorial_08>
+)
+add_custom_command(
+    TARGET Tutorial_08 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+	${CMAKE_SOURCE_DIR}/resources ${PROJECT_FILE_DIR}/resources
+)
+add_custom_command(
+	TARGET Tutorial_08 POST_BUILD 
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+	${CMAKE_SOURCE_DIR}/resources $<TARGET_FILE_DIR:Tutorial_08>/resources
 )
 
 endif()
@@ -99,4 +111,7 @@ else("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
 	${CMAKE_SOURCE_DIR}/external/glew/lib/Release/Win32
 	${CMAKE_SOURCE_DIR}/external/glfw/lib/Win32/
 )
+
+
 endif()
+
