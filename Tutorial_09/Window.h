@@ -1,9 +1,6 @@
 #pragma once
 #include<glfw3.h>
-
-#include"ShaderProgram.h"
 #include"Camera.h"
-#include"Sprite.h"
 #include"Game.h"
 class Window
 {

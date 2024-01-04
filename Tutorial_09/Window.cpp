@@ -81,12 +81,12 @@ Window::Window(int width, int height) :m_width(width), m_height(height)
 
 	
 
-	bg = new Sprite("C:\\Users\\for-t\\Desktop\\openglTutorial\\Learn-Computer-Graphics\\resources\\bg.png", glm::vec2(0));
+	bg = new Sprite("resources/bg.png", glm::vec2(0));
 
 	bg->scale(glm::vec2(m_width, m_height));
 
 //	bg_Game = new Game();
-	spaceship = new Sprite("C:\\Users\\for-t\\Desktop\\openglTutorial\\Learn-Computer-Graphics\\resources\\spaceship.png", glm::vec2(100, 100));
+	spaceship = new Sprite("resources/spaceship.png", glm::vec2(100, 100));
 	
 }
 
