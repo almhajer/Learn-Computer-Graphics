@@ -3,10 +3,9 @@
 Game::Game()
 {
 
-	background = new Sprite("resources/bg.png", glm::vec2(0));
+	bg = new Sprite("resources/bg.png", glm::vec2(0));
 
-	
-	background->scale(glm::vec2(400, 400));
+	bg->scale(glm::vec2(2000, 2000));
 }
 
 Game::~Game()
@@ -20,7 +19,7 @@ void Game::input()
 void Game::Draw(ShaderProgram* shader)
 {
 
-	shader->Send_Mat4("model_matrx", background->transformation());
+	shader->Send_Mat4("model_matrx", bg->transformation());
 
-	background->Draw();
+	bg->Draw();
 }

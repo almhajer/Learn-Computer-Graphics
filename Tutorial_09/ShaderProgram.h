@@ -4,7 +4,7 @@
 class ShaderProgram {
 
 public:
-	ShaderProgram(const char*vertex_shader,const char* fragment_shader);
+	ShaderProgram(const char* vertex_shader,const char* fragment_shader);
 
 	~ShaderProgram();
 	void use();

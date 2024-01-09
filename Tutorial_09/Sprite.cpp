@@ -5,7 +5,7 @@ Sprite::Sprite(const char* imagepath, glm::vec2 position)
 	texture = new Texture(imagepath);
 	rectangle = new Rectangle();
 	rectangle->setposition(position);
-	rectangle->setscale(glm::vec2(100,150));
+	rectangle->setscale(glm::vec2(100));
 }
 
 Sprite::~Sprite()

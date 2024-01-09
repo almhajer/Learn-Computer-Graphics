@@ -58,7 +58,7 @@ Rectangle::Rectangle():position(glm::vec2(0.0)),scale(glm::vec2(1)), rotation_an
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, NULL);
 	
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//
 
 
 	// uv picture
@@ -68,12 +68,14 @@ Rectangle::Rectangle():position(glm::vec2(0.0)),scale(glm::vec2(1)), rotation_an
 
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, NULL);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 Rectangle::~Rectangle()
 {
 	glDeleteVertexArrays(1, &VAO);
-	//glDeleteVertexArrays(1, &CBO);
+
 
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &CBO);
@@ -84,7 +86,7 @@ Rectangle::~Rectangle()
 void Rectangle::Draw()
 {
 	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 

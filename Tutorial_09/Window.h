@@ -25,7 +25,7 @@ private:
 
 	Camera* camera;
 	Sprite* spaceship;
-	Sprite* bg;
+	Game* bg;
 	Game* bg_Game;
 	
 };

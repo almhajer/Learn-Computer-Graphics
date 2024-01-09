@@ -14,7 +14,7 @@ Window::Window(int width, int height) :m_width(width), m_height(height)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	window_ptr = glfwCreateWindow(width, height, "Tutorial_06", NULL, NULL);
+	window_ptr = glfwCreateWindow(width, height, "Tutorial_09", NULL, NULL);
 	if (window_ptr == nullptr) {
 		std::cout << "not can make window \n";
 	}
@@ -81,20 +81,21 @@ Window::Window(int width, int height) :m_width(width), m_height(height)
 
 	
 
-	bg = new Sprite("resources/bg.png", glm::vec2(0));
+	bg = new Game();
 
-	bg->scale(glm::vec2(m_width, m_height));
+	/*bg->scale(glm::vec2(m_width, m_height));*/
 
 //	bg_Game = new Game();
 	spaceship = new Sprite("resources/spaceship.png", glm::vec2(100, 100));
-	
+	//game = new Game();
+
 }
 
 Window::~Window()
 {
 	delete camera;
 	delete shader;
-	delete bg;
+	//delete bg;
 	//delete bg_Game;
 
 	delete spaceship;
@@ -156,32 +157,18 @@ void Window::MainLoop()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 
-		//angle += 0.001f;
-		//triangle_renderer->setrotation(angle);
-
-
+		shader->use();
 		shader->Send_Mat4("projection", camera->Get_Projection());
 
 		//الخلفية
 		
-	
 			
-		shader->Send_Mat4("model_matx", bg->transformation());
-		bg->Draw();
-		//bg_Game->Draw(shader);
-
-
-
 		
 
 		shader->Send_Mat4("model_matx", spaceship->transformation());
-
-
-		shader->use();
+		bg->Draw(shader);
 		spaceship->Draw();
 	
-
-		//}
 
 		glfwSwapBuffers(window_ptr);
 		glfwPollEvents();

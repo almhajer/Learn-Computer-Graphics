@@ -47,7 +47,7 @@ void ShaderProgram::use()
 
 void ShaderProgram::Send_Mat4(const char* name, glm::mat4& mat)
 {
-	unsigned int location=glGetUniformLocation(ID,name);
+	auto location=glGetUniformLocation(ID,name);
 	glUniformMatrix4fv(location, 1, GL_FALSE,&mat[0][0]);
 }
 

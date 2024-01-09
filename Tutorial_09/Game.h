@@ -11,6 +11,6 @@ public:
 
 
 private:
-	Sprite* background;
+	Sprite* bg;
 	
 };
