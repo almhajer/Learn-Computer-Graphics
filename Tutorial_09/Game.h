@@ -11,6 +11,13 @@ public:
 
 
 private:
-	Sprite* bg;
-	
+	Sprite* background;
+	Sprite* sun;
+	Sprite* planet;
+	Sprite* planet_mask;
+	Sprite* planet2;
+	Sprite* spaceship;
+	Sprite* enemy;
+
+	Texture* bullet;
 };

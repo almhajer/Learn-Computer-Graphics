@@ -1,6 +1,5 @@
-#include<glew.h>
 #include "Window.h"
-#include<iostream>
+
 
 
 using namespace std;
@@ -30,28 +29,28 @@ Window::Window(int width, int height) :m_width(width), m_height(height)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	const char* vs = R"CODE(
-			#version 410 core
-			layout (location=0) in vec2 position;
-			layout (location=1) in vec4 color;
-			layout (location=2) in vec2 uv;
+			#version 330 core
+			layout(location = 0) in vec2 position;
+			layout(location = 1) in vec4 color;
+			layout(location = 2) in vec2 uv;
 
 
 			uniform mat4 projection;
-			uniform mat4 model_matx;
+			uniform mat4 model_matrx;
 
 			out vec4 vertex_color;
 			out vec2 vertex_uv;
 
 			void main(){
 
-			gl_Position = projection*model_matx*vec4(position.x,position.y,0.0f,1.0f);
+			gl_Position = projection * model_matrx * vec4(position.x,position.y,0.0,1.0);
 			vertex_color=color;
 			vertex_uv=uv;
 			}
 		)CODE";
 
 	const char* fs = R"CODE(
-			#version 410 core
+			#version 330 core
 			out vec4 finalcolor;
 
 			in vec4 vertex_color;
@@ -69,25 +68,7 @@ Window::Window(int width, int height) :m_width(width), m_height(height)
 
 	camera = new Camera(m_width, m_height);
 	shader = new ShaderProgram(vs, fs);
-
-
-	//openfile_button = nullptr;
-	spaceship = nullptr;
-	bg = nullptr;
-
-	//triangle
-
-
-
-	
-
-	bg = new Game();
-
-	/*bg->scale(glm::vec2(m_width, m_height));*/
-
-//	bg_Game = new Game();
-	spaceship = new Sprite("resources/spaceship.png", glm::vec2(100, 100));
-	//game = new Game();
+	game = new Game();
 
 }
 
@@ -95,15 +76,12 @@ Window::~Window()
 {
 	delete camera;
 	delete shader;
-	//delete bg;
-	//delete bg_Game;
-
-	delete spaceship;
+	delete game;
 	glfwTerminate();
 
 }
 
-static glm::vec2 pos = glm::vec2(200, 250);
+
 
 void Window::Input()
 {
@@ -118,17 +96,17 @@ void Window::Input()
 	}
 
 	if (glfwGetKey(window_ptr, GLFW_KEY_UP)) {
-		spaceship->move_up();
+	
 	}
 	if (glfwGetKey(window_ptr, GLFW_KEY_DOWN)) {
-		spaceship->move_down();
+	
 	}
 
 	if (glfwGetKey(window_ptr, GLFW_KEY_LEFT)) {
-		spaceship->move_left();
+		
 	}
 	if (glfwGetKey(window_ptr, GLFW_KEY_RIGHT)) {
-		spaceship->move_right();
+		
 	}
 
 
@@ -165,9 +143,8 @@ void Window::MainLoop()
 			
 		
 
-		shader->Send_Mat4("model_matx", spaceship->transformation());
-		bg->Draw(shader);
-		spaceship->Draw();
+		game->Draw(shader);
+
 	
 
 		glfwSwapBuffers(window_ptr);
@@ -185,7 +162,7 @@ void Window::Resize()
 		m_width = width;
 		glViewport(0, 0, width, height);
 		printf("Resize to {Width %d }\t & {Height:%d} \n ", width, height);
-		camera->Update_Viewport(width, height);
+		camera->Update_Viewport(m_width, m_height);
 	}
 
 }

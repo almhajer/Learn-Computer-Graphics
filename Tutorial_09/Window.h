@@ -1,7 +1,16 @@
 #pragma once
-#include<glfw3.h>
-#include"Camera.h"
-#include"Game.h"
+#include <glew.h>
+#include <glfw3.h>
+
+#include <iostream>
+using namespace std;
+
+#include "ShaderProgram.h"
+#include "Camera.h"
+#include "FileDialog.h"
+
+#include "Sprite.h"
+#include "Game.h"
 class Window
 {
 public:
@@ -22,11 +31,9 @@ private:
 	GLFWwindow* window_ptr;
 
 	ShaderProgram* shader;
-
 	Camera* camera;
-	Sprite* spaceship;
-	Game* bg;
-	Game* bg_Game;
+	Game* game;
+	
 	
 };
 
