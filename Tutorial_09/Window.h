@@ -23,7 +23,7 @@ public:
 
 	void MainLoop();
 
-
+	static const GLFWvidmode* GetSizeFullScreen();
 	void Resize();
 
 private:

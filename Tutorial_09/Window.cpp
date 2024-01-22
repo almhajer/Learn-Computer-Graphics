@@ -13,7 +13,10 @@ Window::Window(int width, int height) :m_width(width), m_height(height)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	window_ptr = glfwCreateWindow(width, height, "Tutorial_09", NULL, NULL);
+	
+	const GLFWvidmode* mode = Window::GetSizeFullScreen();
+
+	window_ptr = glfwCreateWindow(mode->width, mode->height, "Tutorial_09", NULL, NULL);
 	if (window_ptr == nullptr) {
 		std::cout << "not can make window \n";
 	}
@@ -151,6 +154,13 @@ void Window::MainLoop()
 		glfwPollEvents();
 
 	}
+}
+
+ const GLFWvidmode* Window::GetSizeFullScreen()
+{
+	GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+	const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
+	return mode;
 }
 
 void Window::Resize()
