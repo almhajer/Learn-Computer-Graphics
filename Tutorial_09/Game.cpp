@@ -20,7 +20,7 @@ Game::Game()
 	planet2->scale(glm::vec2(600));
 
 	spaceship = new Sprite("resources/spaceship.png", glm::vec2(700, 500));
-	spaceship->scale(glm::vec2(100));
+	spaceship->scale(glm::vec2(250));
 
 
 	enemy = new Sprite("resources/spaceship.png", glm::vec2(700, 200));
