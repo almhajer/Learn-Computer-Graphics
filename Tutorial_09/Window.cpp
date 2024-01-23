@@ -15,8 +15,12 @@ Window::Window(int width, int height) :m_width(width), m_height(height)
 
 	
 	const GLFWvidmode* mode = Window::GetSizeFullScreen();
-
+	
 	window_ptr = glfwCreateWindow(mode->width, mode->height, "Tutorial_09", NULL, NULL);
+	//تكبير الشاشة للكاملة
+	glfwSetWindowMonitor(window_ptr, glfwGetPrimaryMonitor(),0,0, mode->width, mode->height, 0);
+
+
 	if (window_ptr == nullptr) {
 		std::cout << "not can make window \n";
 	}
