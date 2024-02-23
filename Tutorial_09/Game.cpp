@@ -67,7 +67,8 @@ void Game::input(const vector<Action>& actions)
 			if (spaceship) {
 				Rectangle* rect = new Rectangle();
 				glm::vec2 pos = spaceship->getpostions();
-				pos += glm::vec2(0, 40); // تم تصحيح التحريك هنا
+				pos.x +=118; // تم تصحيح التحريك هنا
+				pos.y += 10;
 				rect->setposition(pos);
 				rect->setscale(glm::vec2(20, 40));
 				bullets.push_back(rect);
@@ -105,7 +106,14 @@ void Game::Draw(ShaderProgram* shader)
 	for (size_t i = 0; i < bullets.size(); i++) {
 
 		auto tmp = bullets[i]->getposition();
-		tmp.y -= 10;
+
+		if (tmp.y < -10) {
+			delete bullets[i];
+			bullets.erase(bullets.begin() + i);
+			continue;
+
+		}
+		tmp.y -= 1;
 
 		bullets[i]->setposition(tmp);
 		shader->Send_Mat4("model_matrx", bullets[i]->GetTransformtionMatrx());

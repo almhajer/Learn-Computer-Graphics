@@ -1,8 +1,8 @@
 #include "Window.h"
-#include"Game.h"
 
 
 
+int Window::key_state = GLFW_RELEASE;
 using namespace std;
 
 
@@ -127,13 +127,16 @@ void Window::Input()
 		ac._type = MOVE_RIGHT;
 		actions.push_back(ac);
 	}
-	if (glfwGetKey(window_ptr, GLFW_KEY_SPACE)) {
 
+	int newstate =glfwGetKey(window_ptr, GLFW_KEY_SPACE);
 		
+
+		if (newstate==GLFW_RELEASE&& key_state==GLFW_PRESS) {
 		ac._type = SHOOT;
 		actions.push_back(ac);
+		}
 
-	}
+		key_state = newstate;
 
 	//left click =0
 	//right click =1
