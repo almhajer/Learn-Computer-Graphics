@@ -21,7 +21,7 @@ public:
 
 	void scale(glm::vec2 _scale);
 
-
+	glm::vec2 getpostions();
 
 
 private:

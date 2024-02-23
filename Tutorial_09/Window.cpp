@@ -1,4 +1,5 @@
 #include "Window.h"
+#include"Game.h"
 
 
 
@@ -13,12 +14,13 @@ Window::Window(int width, int height) :m_width(width), m_height(height)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	
-	const GLFWvidmode* mode = Window::GetSizeFullScreen();
-	
+	// الحصول على حجم شاشة العرض
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+
 	window_ptr = glfwCreateWindow(mode->width, mode->height, "Tutorial_09", NULL, NULL);
 	//تكبير الشاشة للكاملة
-	glfwSetWindowMonitor(window_ptr, glfwGetPrimaryMonitor(),0,0, mode->width, mode->height, 0);
+	glfwSetWindowMonitor(window_ptr, glfwGetPrimaryMonitor(), 0, 0, mode->width, mode->height, 0);
 
 
 	if (window_ptr == nullptr) {
@@ -92,6 +94,7 @@ Window::~Window()
 
 void Window::Input()
 {
+	Action ac;
 	if (glfwGetKey(window_ptr, GLFW_KEY_ESCAPE)) {
 		glfwSetWindowShouldClose(window_ptr, true);
 
@@ -100,22 +103,37 @@ void Window::Input()
 	if (glfwGetKey(window_ptr, GLFW_KEY_DELETE)) {
 
 		//	points_renderer->Delete();
+
 	}
 
 	if (glfwGetKey(window_ptr, GLFW_KEY_UP)) {
 	
+		ac._type = MOVE_UP;
+		actions.push_back(ac);
 	}
 	if (glfwGetKey(window_ptr, GLFW_KEY_DOWN)) {
 	
+		ac._type = MOVE_DOWN;
+		actions.push_back(ac);
 	}
 
 	if (glfwGetKey(window_ptr, GLFW_KEY_LEFT)) {
 		
+		ac._type = MOVE_LEFT;
+		actions.push_back(ac);
 	}
 	if (glfwGetKey(window_ptr, GLFW_KEY_RIGHT)) {
 		
+		ac._type = MOVE_RIGHT;
+		actions.push_back(ac);
 	}
+	if (glfwGetKey(window_ptr, GLFW_KEY_SPACE)) {
 
+		
+		ac._type = SHOOT;
+		actions.push_back(ac);
+
+	}
 
 	//left click =0
 	//right click =1
@@ -128,7 +146,8 @@ void Window::Input()
 
 	}
 
-
+	game->input(actions);
+	actions.clear();
 
 }
 //float angle = 0;
@@ -160,12 +179,7 @@ void Window::MainLoop()
 	}
 }
 
- const GLFWvidmode* Window::GetSizeFullScreen()
-{
-	GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
-	const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
-	return mode;
-}
+
 
 void Window::Resize()
 {

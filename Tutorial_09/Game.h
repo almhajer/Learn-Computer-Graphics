@@ -1,12 +1,33 @@
 #pragma once
 #include "Sprite.h"
 #include "ShaderProgram.h"
+
+#include<vector>
+using  namespace std;
+
+enum Type
+{
+	MOVE_UP,
+	MOVE_DOWN,
+	MOVE_LEFT,
+	MOVE_RIGHT,
+	SHOOT
+};
+
+struct Action
+{
+	Type _type;
+	std::pair<bool, char> iskey_pressed;
+	glm::vec2 mouse_pos;
+};
+
+
 class Game
 {
 public:
 	Game();
 	~Game();
-	void input();
+	void input(const vector<Action>& actions);
 	void Draw(ShaderProgram* shader);
 
 
@@ -20,4 +41,5 @@ private:
 	Sprite* enemy;
 
 	Texture* bullet;
+	vector<Rectangle*> bullets;
 };

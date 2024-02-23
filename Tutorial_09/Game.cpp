@@ -4,7 +4,7 @@ Game::Game()
 {
 
 	background = new Sprite("resources/bg.png", glm::vec2(0));
-	background->scale(glm::vec2(2000, 2000));
+	background->scale(glm::vec2(4040, 4040));
 
 	sun = new Sprite("resources/sun.png", glm::vec2(-50, 500));
 	sun->scale(glm::vec2(400));
@@ -29,18 +29,55 @@ Game::Game()
 	bullet = new Texture("resources/bullet.png");
 }
 
-Game::~Game()
-{
-	delete background;
-	delete sun;
-	delete planet;
-	delete planet_mask;
-	delete planet2;
-	delete spaceship;
-}
 
-void Game::input()
+
+void Game::input(const vector<Action>& actions)
 {
+	if (actions.empty()) {
+		return; // لا داعي للتعامل مع قائمة الإجراءات إذا كانت فارغة
+	}
+
+	for (const auto& action : actions) {
+		switch (action._type) {
+		case MOVE_UP:
+			if (spaceship) {
+				spaceship->move_up(5);
+			}
+			break;
+
+		case MOVE_DOWN:
+			if (spaceship) {
+				spaceship->move_down(5);
+			}
+			break;
+
+		case MOVE_LEFT:
+			if (spaceship) {
+				spaceship->move_left(5);
+			}
+			break;
+
+		case MOVE_RIGHT:
+			if (spaceship) {
+				spaceship->move_right(5);
+			}
+			break;
+
+		case SHOOT:
+			if (spaceship) {
+				Rectangle* rect = new Rectangle();
+				glm::vec2 pos = spaceship->getpostions();
+				pos += glm::vec2(0, 40); // تم تصحيح التحريك هنا
+				rect->setposition(pos);
+				rect->setscale(glm::vec2(20, 40));
+				bullets.push_back(rect);
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
 }
 
 void Game::Draw(ShaderProgram* shader)
@@ -64,6 +101,28 @@ void Game::Draw(ShaderProgram* shader)
 	shader->Send_Mat4("model_matrx", spaceship->transformation());
 	spaceship->Draw();
 
+	bullet->use();
+	for (size_t i = 0; i < bullets.size(); i++) {
 
+		auto tmp = bullets[i]->getposition();
+		tmp.y -= 10;
+
+		bullets[i]->setposition(tmp);
+		shader->Send_Mat4("model_matrx", bullets[i]->GetTransformtionMatrx());
+		bullets[i]->Draw();
+	}
+
+}
+
+
+
+Game::~Game()
+{
+	delete background;
+	delete sun;
+	delete planet;
+	delete planet_mask;
+	delete planet2;
+	delete spaceship;
 
 }

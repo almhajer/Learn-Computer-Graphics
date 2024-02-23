@@ -23,7 +23,6 @@ public:
 
 	void MainLoop();
 
-	static const GLFWvidmode* GetSizeFullScreen();
 	void Resize();
 
 private:
@@ -33,7 +32,8 @@ private:
 	ShaderProgram* shader;
 	Camera* camera;
 	Game* game;
-	
+	vector<Action> actions;
+
 	
 };
 
